@@ -20,20 +20,10 @@ import { cdn } from "@/lib/cdn";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
 import { formatCurrencyNumber, formatCurrencyRange } from "@/lib/currency";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const scholarships = await prisma.scholarship
-    .findMany({
-      where: { isActive: true },
-      select: { slug: true },
-    })
-    .catch(() => []);
-  return scholarships.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

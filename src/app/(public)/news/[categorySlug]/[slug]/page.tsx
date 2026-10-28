@@ -17,18 +17,10 @@ interface Props {
   params: Promise<{ categorySlug: string; slug: string }>;
 }
 
-export const revalidate = 1800;
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams() {
-  const items = await prisma.news
-    .findMany({
-      where: { status: true },
-      select: { slug: true, category: { select: { slug: true } } },
-    })
-    .catch(() => []);
-  return items
-    .filter((n) => n.slug && n.category?.slug)
-    .map((n) => ({ categorySlug: n.category.slug, slug: n.slug! }));
+interface Props {
+  params: Promise<{ categorySlug: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

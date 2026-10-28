@@ -47,20 +47,10 @@ import UniversityFMGE from "@/components/university/UniversityFMGE";
 import UniversityTestimonials from "@/components/university/UniversityTestimonials";
 import UniversityFAQs from "@/components/university/UniversityFAQs";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const universities = await prisma.university
-    .findMany({
-      where: { status: true },
-      select: { slug: true },
-    })
-    .catch(() => []);
-  return universities.map((u) => ({ slug: u.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

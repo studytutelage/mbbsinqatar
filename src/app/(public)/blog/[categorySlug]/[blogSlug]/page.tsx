@@ -21,23 +21,10 @@ import {
 import { getExpertProfile } from "@/data/experts";
 import AuthorProfile from "@/components/blog/AuthorProfile";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ categorySlug: string; blogSlug: string }>;
-}
-
-export const revalidate = 1800;
-
-export async function generateStaticParams() {
-  const blogs = await prisma.blog
-    .findMany({
-      where: { status: true },
-      select: { slug: true, category: { select: { slug: true } } },
-    })
-    .catch(() => []);
-  return blogs.map((b) => ({
-    categorySlug: b.category.slug,
-    blogSlug: b.slug,
-  }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

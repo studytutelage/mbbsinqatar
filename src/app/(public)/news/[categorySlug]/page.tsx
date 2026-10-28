@@ -13,20 +13,10 @@ import { prisma } from "@/lib/prisma";
 import { cdn } from "@/lib/cdn";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
 
-export const revalidate = 1800;
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ categorySlug: string }>;
-}
-
-export async function generateStaticParams() {
-  const cats = await prisma.newsCategory
-    .findMany({
-      where: { status: true },
-      select: { slug: true },
-    })
-    .catch(() => []);
-  return cats.map((c) => ({ categorySlug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
