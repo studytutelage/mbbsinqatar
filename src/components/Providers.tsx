@@ -10,10 +10,8 @@ import { useState } from "react";
 
 export function Providers({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session?: any;
 }) {
   const [queryClient] = useState(
     () =>
@@ -28,7 +26,7 @@ export function Providers({
   );
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <ModalProvider>
         <QueryClientProvider client={queryClient}>
           {children}
